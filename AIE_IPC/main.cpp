@@ -3,7 +3,6 @@
 #include "EntityDisplayApp.h"
 
 #include <string>
-#include <iostream>
 #include <functional>
 
 int PromptInt(const std::string& message, std::function<bool(int value)> validatorFn)

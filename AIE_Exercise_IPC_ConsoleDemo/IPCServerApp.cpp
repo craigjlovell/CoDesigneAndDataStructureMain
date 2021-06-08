@@ -50,12 +50,10 @@ IPCServerApp::~IPCServerApp()
 
 void IPCServerApp::PushRun()
 {
-    srand(time(NULL));
+    srand(time(NULL));    
 
     MyData myData = { rand() % 100, rand() % 10000 / 100.0f, rand() % 32 + 'A', rand() % 2 , rand() % 10000 / 100.0f };
 
-    *m_data = myData;
-    
     if (_getch() == 27)
     {
         close = true;

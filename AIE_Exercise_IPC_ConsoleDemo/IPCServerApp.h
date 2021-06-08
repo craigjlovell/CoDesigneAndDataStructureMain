@@ -15,5 +15,6 @@ public:
 	virtual void Run();
 
 protected:
+
 private:
 };

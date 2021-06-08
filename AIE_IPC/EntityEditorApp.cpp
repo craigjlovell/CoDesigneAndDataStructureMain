@@ -7,18 +7,41 @@
 #define RAYGUI_SUPPORT_ICONS
 #include "raygui.h"
 
+
 EntityEditorApp::EntityEditorApp(int screenWidth, int screenHeight) : 
 	Application(screenWidth, screenHeight, "Entity Editor App")
 {
+	m_fileHandle = CreateFileMapping(INVALID_HANDLE_VALUE, nullptr, PAGE_READWRITE, 0, sizeof(Entity), m_memory);
 
+	if (m_fileHandle == nullptr)
+	{
+		std::cout << "Could not create file mapping object: " <<
+			GetLastError() << std::endl;
+
+		return;
+	}
+
+	m_data = (Entity*)MapViewOfFile(m_fileHandle, FILE_MAP_ALL_ACCESS, 0, 0, sizeof(Entity) * 10);
+
+	if (m_data == nullptr)
+	{
+		std::cout << "Could not map view of file: " <<
+			GetLastError() << std::endl;
+
+		CloseHandle(m_fileHandle);
+		return;
+	}
 }
 
 EntityEditorApp::~EntityEditorApp()
 {
+	UnmapViewOfFile(m_data);
 
+	CloseHandle(m_fileHandle);
 }
 
-void EntityEditorApp::Startup() {
+void EntityEditorApp::Startup() 
+{	
 
 	srand(time(nullptr));
 	for (auto& entity : m_entities)
@@ -32,6 +55,7 @@ void EntityEditorApp::Startup() {
 		entity.g = rand() % 255;
 		entity.b = rand() % 255;
 	}
+	
 }
 
 void EntityEditorApp::Shutdown()
@@ -99,6 +123,11 @@ void EntityEditorApp::Update(float deltaTime) {
 		m_entities[i].y = fmod(m_entities[i].y, m_screenHeight);
 		if (m_entities[i].y < 0)
 			m_entities[i].y += m_screenHeight;
+	}
+
+	for (int i = 0; i < ENTITY_COUNT; i++)
+	{
+		m_data[i] = m_entities[i];
 	}
 }
 
