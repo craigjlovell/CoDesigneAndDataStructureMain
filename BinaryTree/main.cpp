@@ -240,6 +240,10 @@ int main(int argc, char** argv)
     std::cout << std::endl;
 
     Insert(&root, new Node(2));
+    Insert(&root, new Node(60));
+    Insert(&root, new Node(7));
+    Insert(&root, new Node(9));
+
     PreOrderPrint(&root);
     std::cout << std::endl;
 

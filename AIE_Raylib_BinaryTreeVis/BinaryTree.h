@@ -15,11 +15,16 @@ public:
 	~BinaryTree();
 
 	bool IsEmpty() const;
+	
+	
+	void InsertMain(TreeNode*& root, TreeNode* nodeToInsert);
 	void Insert(int a_nValue);
+
 	void Remove(int a_nValue);
+	void RemoveMain(int val, TreeNode* m_pRoot, TreeNode* n);
+
 	TreeNode* Find(int a_nValue);
 
-	void RemoveMain(int val, TreeNode* root, TreeNode* n);
 	void PrintOrdered();
 	void PrintUnordered();
 
