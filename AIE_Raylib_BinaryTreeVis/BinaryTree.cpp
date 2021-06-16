@@ -28,7 +28,7 @@ bool BinaryTree::IsEmpty() const
 
 void BinaryTree::InsertMain(TreeNode*& root, TreeNode* nodeToInsert)
 {
-	// TODO    	
+	    	
 
 	if (nodeToInsert == nullptr)
 	{
@@ -37,7 +37,7 @@ void BinaryTree::InsertMain(TreeNode*& root, TreeNode* nodeToInsert)
 
 	if (IsEmpty())
 	{
-		root = new TreeNode(nodeToInsert->GetData());
+		root = nodeToInsert;
 		return;
 	}
 	
@@ -64,11 +64,11 @@ void BinaryTree::InsertMain(TreeNode*& root, TreeNode* nodeToInsert)
 	
 	if (nodeToInsert->GetData() < previous->GetData())
 	{
-		previous->SetLeft(new TreeNode(nodeToInsert->GetData()));
+		previous->SetLeft(nodeToInsert);
 	}
 	else
 	{
-		previous->SetRight(new TreeNode(nodeToInsert->GetData()));
+		previous->SetRight(nodeToInsert);
 	}
 }
 
@@ -128,19 +128,12 @@ void BinaryTree::Remove(int a_nValue)
 	RemoveMain(a_nValue, m_pRoot, m_pRoot);
 }
 
-void BinaryTree::RemoveMain(int val, TreeNode* root, TreeNode* n)
+void BinaryTree::RemoveMain(int val, TreeNode*& root, TreeNode* n)
 {
-	if (n->GetData() == val)
-	{
-		TreeNode* child = n;
-		
-		InsertMain(root, child->GetLeft());
-		InsertMain(root, child->GetRight());
-		child = nullptr;
-		delete child;
+	if (n == nullptr)
+		return;
 
-	}
-	else if (n->GetLeft()->GetData() == val)
+	if (n->GetLeft() && n->GetLeft()->GetData() == val)
 	{
 		TreeNode* child = n->GetLeft();
 		n->SetLeft(nullptr);
@@ -148,13 +141,20 @@ void BinaryTree::RemoveMain(int val, TreeNode* root, TreeNode* n)
 		InsertMain(root, child->GetRight());
 		delete child;
 	}
-	else if (n->GetRight()->GetData() == val)
+	else if (n->GetRight() && n->GetRight()->GetData() == val)
 	{
 		TreeNode* child = n->GetRight();
 		n->SetRight(nullptr);
 		InsertMain(root, child->GetLeft());
 		InsertMain(root, child->GetRight());
 		delete child;
+	}
+	else if (n->GetData() == val &&  root == n)
+	{
+		root = nullptr;				
+		InsertMain(root, n->GetLeft());
+		InsertMain(root, n->GetRight());
+		delete n;		
 	}
 	else if (val < n->GetData())
 	{
@@ -163,10 +163,6 @@ void BinaryTree::RemoveMain(int val, TreeNode* root, TreeNode* n)
 	else if (val > n->GetData())
 	{
 		RemoveMain(val, root, n->GetRight());
-	}
-	else if (val == n->GetData())
-	{
-		RemoveMain(val, root, n);
 	}
 }
 

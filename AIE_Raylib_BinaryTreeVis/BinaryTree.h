@@ -21,7 +21,7 @@ public:
 	void Insert(int a_nValue);
 
 	void Remove(int a_nValue);
-	void RemoveMain(int val, TreeNode* m_pRoot, TreeNode* n);
+	void RemoveMain(int val, TreeNode*& root, TreeNode* n);
 
 	TreeNode* Find(int a_nValue);
 

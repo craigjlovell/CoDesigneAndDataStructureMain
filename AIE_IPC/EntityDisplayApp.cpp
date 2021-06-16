@@ -9,7 +9,19 @@ EntityDisplayApp::EntityDisplayApp(int screenWidth, int screenHeight) :
 	if (m_fileHandle == nullptr)
 	{
 		std::cout << "Could not create file mapping object: " << GetLastError() << std::endl;
+		//while (!isOpen)
+		//{
+		//	if (m_data == nullptr)
+		//	{
+		//		std::cout << "not open";
+		//	}
+		//	else
+		//	{
+		//		return;
+		//	}
+		//}
 		return;
+		
 	}
 
 	m_data = (Entity*)MapViewOfFile(m_fileHandle, FILE_MAP_ALL_ACCESS, 0, 0, sizeof(Entity)* 10);
@@ -40,11 +52,14 @@ void EntityDisplayApp::Shutdown()
 
 void EntityDisplayApp::Update(float deltaTime)
 {
-	m_entities.clear();
-
-	for (int i = 0; i < 10; i++)
+	if (m_data != nullptr)
 	{
-		m_entities.push_back(m_data[i]);
+		m_entities.clear();
+
+		for (int i = 0; i < 10; i++)
+		{
+			m_entities.push_back(m_data[i]);
+		}
 	}
 }
 

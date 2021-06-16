@@ -9,8 +9,7 @@ int main(int argc, char** argv)
     myList.Sort();
 
     for (auto iter = myList.begin(); iter != myList.end();)
-    {
-        // we want to remove all occurences of 99
+    {        
         if (*iter == 30)
         {
             // remove the node - update iter so that its pointing
@@ -29,32 +28,4 @@ int main(int argc, char** argv)
     {
         std::cout << value << std::endl;
     }
-    
-    /*
-
-    LinkedList<int> myList = { 10, 20, 30, 40, 30, 50, 60 };
-    std::cout << "Count: " << myList.Count() << "\t\t Expected: 6" << std::endl;
-
-    myList.PushBack(70);
-    std::cout << "Count: " << myList.Count() << "\t\t Expected: 7" << std::endl;
-
-    myList.PushFront(5);
-    std::cout << "Count: " << myList.Count() << "\t\t Expected: 8" << std::endl;
-
-    myList.PopBack();
-    std::cout << "Count: " << myList.Count() << "\t\t Expected: 7" << std::endl;
-
-    myList.PopFront();
-    std::cout << "Count: " << myList.Count() << "\t\t Expected: 6" << std::endl;
-
-    myList.Remove(std::find(myList.begin(), myList.end(), 30));
-    std::cout << "Count: " << myList.Count() << "\t\t Expected: 5" << std::endl;
-
-    myList.PopBack();
-    myList.PopBack();
-    myList.PopBack();
-    myList.PopBack();
-    myList.PopBack();
-    std::cout << "Count: " << myList.Count() << "\t\t Expected: 0" << std::endl;
-    */
 }

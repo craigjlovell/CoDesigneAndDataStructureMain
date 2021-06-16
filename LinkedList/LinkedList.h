@@ -62,7 +62,8 @@ public:
 
     ~LinkedList()
     {
-
+        // TODO:
+        // cleanup the list - delete the nodes
     }
 
     LinkedList(std::initializer_list<T> list)
@@ -76,7 +77,6 @@ public:
         Node* nodeToRemove = iter.node;
         Node* nextNode = nodeToRemove->next;
 
-        // TODO:
         if (nodeToRemove == m_first)
         {
             PopFront();
@@ -102,12 +102,25 @@ public:
         Node* newNode = new Node();
         newNode->value = value;
 
-        currentNode->next->prev = newNode;
-        newNode->next = currentNode->next;
-        newNode->prev = currentNode;
-        currentNode->next = newNode;
-
-        return Iterator(newNode);
+        if (iter == begin())
+        {
+            PushFront(value);
+            return 0;
+        }
+        else if (iter == end())
+        {
+            PushBack(value);
+            return 0;
+        }
+        else
+        {
+            currentNode->prev->next = newNode;
+            newNode->next = currentNode;
+            newNode->prev = currentNode->prev;
+            currentNode->prev = newNode;
+            return Iterator(newNode);
+        }
+        
     }
 
     unsigned int Count()
@@ -208,7 +221,6 @@ public:
 
     void Sort()
     {
-        // TODO
         bool isSorted = false;
         while (!isSorted)
         {
@@ -231,7 +243,6 @@ public:
 
     void Swap(Iterator a, Iterator b)
     {
-        // TODO
         if (a.node->prev != nullptr)
         {
             a.node->prev->next = b.node;

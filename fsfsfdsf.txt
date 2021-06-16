@@ -1,0 +1,22 @@
+LinkedList:
+	no more changes needed
+
+All Projects:
+	
+	Add usefull comments!
+
+Hashing:
+	Make your own "Bad Hash" algorithm
+
+
+IPC:
+	Display app crashes when it's run first
+	Make displauy app show "Waiting for Editor" when the editor app is not open
+
+
+Binary Tree:
+	no more changes needed
+
+
+Version control
+	create word document with screenshot of git repo and commit history

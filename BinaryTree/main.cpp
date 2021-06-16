@@ -11,7 +11,7 @@ struct Node
     Node* right = nullptr;
 
     // Constructor
-    Node() {};
+    Node() { };
 
     // Overloaded Constructor
     Node(int value) : value(value) {}
@@ -22,7 +22,7 @@ struct Node
 
 void PreOrderPrint(Node* n)
 {
-    // TODO
+    
     if (n == nullptr)
     {
         return;
@@ -37,7 +37,7 @@ void PreOrderPrint(Node* n)
 
 void PostOrderPrint(Node* n)
 {
-    // TODO
+    
     if (n == nullptr)
         return;
 
@@ -94,7 +94,7 @@ void ForEachDfs(Node* root, std::function<void(Node*)> fn)
 
 Node* Find(Node* n, int value)
 {
-    // TODO
+    
     bool find = false;
     while (!find)
     {
@@ -123,60 +123,66 @@ Node* Find(Node* n, int value)
     }
     return n;
 }
-    
-void Insert(Node* root, Node* nodeToInsert)
+
+bool IsEmpty(Node *& root)
 {
-    // TODO    
-    bool adding = false;
-    while(!adding)
+    return (root == nullptr);
+}
+    
+void Insert(Node*& root, Node* nodeToInsert)
+{    
+    if (nodeToInsert == nullptr)
     {
-        if (nodeToInsert == nullptr)
+        return;
+    }
+
+    if (IsEmpty(root))
+    {
+        root = nodeToInsert;
+        return;
+    }
+
+    Node* current = root;
+    Node* previous = nullptr;
+
+    while (current != nullptr)
+    {
+        if (nodeToInsert->value == current->value)
         {
             return;
         }
-        else if (nodeToInsert->value == root->value)
+        else if (nodeToInsert->value < current->value)
         {
-            return;
+            previous = current;
+            current = current->left;
         }
-        else if (nodeToInsert->value < root->value)
+        else if (nodeToInsert->value > current->value)
         {
-            if (root->left != nullptr)
-            {
-                root = root->left;
-            }
-            else
-            {
-                root->left = nodeToInsert;
-                adding = true;
-            }
+            previous = current;
+            current = current->right;
         }
-        else if (nodeToInsert->value > root->value)
+    }
+
+    if (previous != nullptr)
+    {
+        if (nodeToInsert->value < previous->value)
         {
-            if (root->right != nullptr)
-            {
-                root = root->right;
-            }            
-            else
-            {
-                root->right = nodeToInsert;
-                adding = true;
-            }
-        }        
+            previous->left = nodeToInsert;
+        }
+        else
+        {
+            previous->right = nodeToInsert;
+        }
     }
 }
     
-void Remove(int val, Node* root, Node* n)
+void Remove(int val, Node*& root, Node* n)
 {
-    //if (n->value == val)
-    //{
-    //    Node* child = n;
-    //    n = nullptr;
-    //    Insert(root, child);
-    //    Insert(root, child->left);
-    //    Insert(root, child->right);
-    //    delete child;
-    //}
-    if (n->left->value == val)
+    if (n == nullptr)
+        return;
+
+
+    if (n->left && n->left->value == val)
     {
         Node* child = n->left;
         n->left = nullptr;
@@ -184,13 +190,24 @@ void Remove(int val, Node* root, Node* n)
         Insert(root, child->right);
         delete child;
     }
-    else if (n->right->value == val)
+    else if (n->right && n->right->value == val)
     {
         Node* child = n->right;
         n->right = nullptr;
         Insert(root, child->left);
         Insert(root, child->right);
         delete child;
+    }
+    else if (n->value == val && root == n)
+    {
+        root = nullptr;
+
+
+        Insert(root, n->left);
+        Insert(root, n->right);
+
+        delete n;
+
     }
     else if (val < n->value)
     {
@@ -202,17 +219,7 @@ void Remove(int val, Node* root, Node* n)
     }
 }
     
-int Height(Node* n)
-{
-    // TODO
-    return 0;
-}
-    
-int Depth(Node* root, Node* n)
-{
-    // TODO
-    return 0;
-}
+
 
 void PrintNode(Node* n)
 {
@@ -224,7 +231,20 @@ void PrintNode(Node* n)
 
 int main(int argc, char** argv)
 {
-    Node root = Node(6,
+
+    Node* r = nullptr;
+    Insert(r, new Node(6));
+    Insert(r, new Node(4));
+    Insert(r, new Node(8));
+    Insert(r, new Node(2));
+    Insert(r, new Node(5));
+    Insert(r, new Node(7));
+    Insert(r, new Node(9));
+    
+    Remove(5, r, r);
+
+
+    Node *root = new Node(6,
         new Node(4,
             new Node(2, nullptr, nullptr),
             new Node(5, nullptr, nullptr)),
@@ -232,29 +252,29 @@ int main(int argc, char** argv)
             new Node(7, nullptr, nullptr),
             new Node(9, nullptr, nullptr)));
 
-    PreOrderPrint(&root);
+    PreOrderPrint(root);
     std::cout << std::endl;
 
-    Remove(2, &root, &root);
-    PreOrderPrint(&root);
+    Remove(2, root, root);
+    PreOrderPrint(root);
     std::cout << std::endl;
 
-    Insert(&root, new Node(2));
-    Insert(&root, new Node(60));
-    Insert(&root, new Node(7));
-    Insert(&root, new Node(9));
-
-    PreOrderPrint(&root);
+    Insert(root, new Node(60));
+    PreOrderPrint(root);
     std::cout << std::endl;
 
-    OrderPrint(&root);
+    Remove(6, root, root);
+    PreOrderPrint(root);
     std::cout << std::endl;
 
-    PostOrderPrint(&root);
+    OrderPrint(root);
+    std::cout << std::endl;
+
+    PostOrderPrint(root);
 
     std::cout << std::endl;
 
-    PrintNode(Find(&root, 20));
+    PrintNode(Find(root, 20));
         
     return 0;
 }

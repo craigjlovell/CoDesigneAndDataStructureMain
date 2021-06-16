@@ -141,8 +141,8 @@ namespace AIEUnitTests
 
             list.PopFront();
 
-            //Assert::AreEqual(list.FirstNode()->value, 20);
-            //Assert::AreEqual(list.LastNode()->value, 40);
+            Assert::AreEqual(list.FirstNode()->value, 20);
+            Assert::AreEqual(list.LastNode()->value, 40);
 
             int arr[3] = { 20, 30, 40 };
             int index = 0;
@@ -173,6 +173,8 @@ namespace AIEUnitTests
                 }
             }
 
+            Assert::IsTrue(list.Count() == 3);
+
 
             int arr[3] = { 10, 20, 40 };
             int index = 0;
@@ -186,16 +188,43 @@ namespace AIEUnitTests
             }
         }
 
-        TEST_METHOD(Insert)
+        TEST_METHOD(Insert_beginning)
+        {
+            // Write another test
+            
+            LinkedList<int> list = { 10, 20, 30, 40 };
+
+            auto iter = std::find(list.begin(), list.end(), 10);
+
+            Assert::IsTrue(iter == list.begin());
+
+            list.Insert(iter, 5);
+
+            Assert::AreEqual(list.FirstNode()->value, 5);
+            Assert::AreEqual(list.LastNode()->value, 40);
+        }
+
+        TEST_METHOD(Insert_middle)
         {
             // Write another test
             LinkedList<int> list = { 10, 20, 30, 40 };
 
-            auto iter = std::find(list.begin(), list.end(), 10);
-            list.Insert(iter, 15);
+            auto iter = std::find(list.begin(), list.end(), 30);
 
-            Assert::AreEqual(list.FirstNode()->next->value, 15);
-            Assert::AreEqual(list.LastNode()->value, 40);
+            list.Insert(iter, 25);
+
+            Assert::AreEqual(list.FirstNode()->next->next->value, 25);
+            Assert::AreEqual(list.LastNode()->prev->prev->value, 25);
+        }
+
+        TEST_METHOD(Insert_end)
+        {
+            // Write another test
+            LinkedList<int> list = { 10, 20, 30, 40 };      
+
+            list.Insert(list.end(), 45);
+
+            Assert::AreEqual(list.LastNode()->value, 45);
         }
 
         TEST_METHOD(Clear)
