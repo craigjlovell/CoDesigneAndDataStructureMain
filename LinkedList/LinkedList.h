@@ -64,6 +64,15 @@ public:
     {
         // TODO:
         // cleanup the list - delete the nodes
+        Node* current = m_first;
+        Node* nextt = nullptr;
+        while (current != nullptr)
+        {
+            nextt = current->next;
+            delete current;
+            current = nextt;
+
+        }
     }
 
     LinkedList(std::initializer_list<T> list)

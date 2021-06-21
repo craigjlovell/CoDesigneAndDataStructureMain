@@ -33,7 +33,7 @@ protected:
 	int m_screenHeight;
 	const char* m_windowTitle;
 
-	enum { ENTITY_COUNT = 10 };
+	enum { ENTITY_COUNT = 20 };
 	HANDLE m_fileHandle;
 	Entity* m_data;
 	Entity m_entities[ENTITY_COUNT];

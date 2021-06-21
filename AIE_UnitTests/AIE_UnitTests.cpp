@@ -5,6 +5,33 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
+template<int ID>
+class MockClass
+{
+public:
+
+    MockClass()
+    {
+        counter += 1;
+    }
+
+    MockClass(MockClass& copy)
+    {
+        counter += 1;
+    }
+
+    ~MockClass()
+    {
+        counter -= 1;
+    }
+
+    static int counter;
+};
+
+
+template<int ID>
+int MockClass<ID>::counter = 0;
+
 namespace AIEUnitTests
 {
     TEST_CLASS(AIELinkedListTest)
@@ -355,6 +382,21 @@ namespace AIEUnitTests
                 Assert::AreEqual(*iter, arr[index]);
                 index++;
             }
+        }
+
+        TEST_METHOD(list_deletes_nodes)
+        {
+            {
+                LinkedList<MockClass<999>> list;
+                list.PushBack(MockClass<999>());
+                list.PushBack(MockClass<999>());
+                list.PushBack(MockClass<999>());
+                list.PushBack(MockClass<999>());
+            }
+
+            Assert::AreEqual(MockClass<999>::counter, 0);
+
+
         }
     };
 }

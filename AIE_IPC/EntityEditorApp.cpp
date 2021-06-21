@@ -21,7 +21,7 @@ EntityEditorApp::EntityEditorApp(int screenWidth, int screenHeight) :
 		return;
 	}
 
-	m_data = (Entity*)MapViewOfFile(m_fileHandle, FILE_MAP_ALL_ACCESS, 0, 0, sizeof(Entity) * 10);
+	m_data = (Entity*)MapViewOfFile(m_fileHandle, FILE_MAP_ALL_ACCESS, 0, 0, sizeof(Entity) * ENTITY_COUNT);
 
 	if (m_data == nullptr)
 	{
@@ -60,7 +60,7 @@ void EntityEditorApp::Startup()
 
 void EntityEditorApp::Shutdown()
 {
-
+	isOpen = false;
 }
 
 void EntityEditorApp::Update(float deltaTime) {
